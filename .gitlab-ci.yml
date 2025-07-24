@@ -20,7 +20,7 @@ test:
 
 monitor-github:
   stage: monitor
-  image: registry.gitlab.com/YOUR_GROUP/monitor-github-action:latest
+  image: registry.gitlab.com/vishalkumar1007-group/monitor_github_action_docker_project_m1:latest
   script:
     - echo "Streaming GitHub Actions logs for branch $TARGET_BRANCH …"
     - /bin/monitor
