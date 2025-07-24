@@ -1,0 +1,31 @@
+name: Deploy
+
+on:
+  push:
+    branches: [qa, build, preproduction, production, danger-production]
+
+jobs:
+  init:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Waiting for mirroring
+        run: echo "::notice::waiting for the mirroring"
+      - uses: actions/checkout@v4
+
+  deploy:
+    needs: init
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deployment stage 1 start
+        run: echo "::notice::deployment stage 1 start"
+      - name: Deployment stage 1 running
+        run: sleep 5
+      - name: Deployment stage 1 end
+        run: echo "::notice::deployment stage 1 end"
+
+      - name: Deployment stage 2 start
+        run: echo "::notice::deployment stage 2 start"
+      - name: Deployment stage 2 running
+        run: sleep 5
+      - name: Deployment stage 2 end
+        run: echo "::notice::deployment stage 2 end"
