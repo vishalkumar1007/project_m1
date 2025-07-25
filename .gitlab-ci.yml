@@ -21,6 +21,8 @@ test:
 monitor-github:
   stage: monitor
   image: registry.gitlab.com/vishalkumar1007-group/monitor_github_action_docker_project_m1:latest
+  before_script:
+    - echo "$DOCKER_PASSWORD" | docker login registry.gitlab.com -u "$DOCKER_USER" --password-stdin
   script:
     - echo "Streaming GitHub Actions logs for branch $TARGET_BRANCH …"
     - /bin/monitor
