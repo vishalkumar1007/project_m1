@@ -1,4 +1,5 @@
 image: docker:26
+
 services:
   - docker:dind
 
@@ -8,10 +9,9 @@ stages:
 
 variables:
   DOCKER_DRIVER: overlay2
-  GITHUB_TOKEN: $GITHUB_PAT
-  GITHUB_OWNER: your-github-org
-  GITHUB_REPO: project_m1
-  TARGET_BRANCH: $CI_COMMIT_REF_NAME
+  GITHUB_TOKEN: $GITHUB_PAT        # set in GitLab CI/CD Variables
+  GITHUB_OWNER: vishalkumar1007    # your GitHub username or org
+  GITHUB_REPO: project_m1          # your GitHub repo name
 
 test:
   stage: test
@@ -22,15 +22,15 @@ test:
 
 monitor-github:
   stage: monitor
-  variables:
-    TARGET_BRANCH: $CI_COMMIT_REF_NAME  # auto-detect current branch name
+  rules:
+    - if: '$CI_COMMIT_REF_NAME =~ /^(main|qa|build|preproduction|production|danger-production)$/'
   script:
     - echo "$DOCKER_PASSWORD" | docker login registry.gitlab.com -u "$DOCKER_USER" --password-stdin
     - docker pull registry.gitlab.com/vishalkumar1007-group/monitor_github_action_docker_project_m1/monitor-github-action:latest
-    - echo "📦 Branch to monitor: $TARGET_BRANCH"
+    - echo "📦 Monitoring GitHub Actions for branch: $CI_COMMIT_REF_NAME"
     - |
       docker run --rm \
-        -e TARGET_BRANCH=$TARGET_BRANCH \
+        -e TARGET_BRANCH=$CI_COMMIT_REF_NAME \
         -e GITHUB_TOKEN=$GITHUB_TOKEN \
         -e GITHUB_OWNER=$GITHUB_OWNER \
         -e GITHUB_REPO=$GITHUB_REPO \
