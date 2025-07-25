@@ -22,10 +22,12 @@ test:
 
 monitor-github:
   stage: monitor
+  variables:
+    TARGET_BRANCH: $CI_COMMIT_REF_NAME  # auto-detect current branch name
   script:
     - echo "$DOCKER_PASSWORD" | docker login registry.gitlab.com -u "$DOCKER_USER" --password-stdin
     - docker pull registry.gitlab.com/vishalkumar1007-group/monitor_github_action_docker_project_m1/monitor-github-action:latest
-    - echo "Streaming GitHub Actions logs for branch $TARGET_BRANCH …"
+    - echo "📦 Branch to monitor: $TARGET_BRANCH"
     - |
       docker run --rm \
         -e TARGET_BRANCH=$TARGET_BRANCH \

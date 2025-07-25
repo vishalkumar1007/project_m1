@@ -2,7 +2,8 @@ name: Deploy
 
 on:
   push:
-    branches: [qa, build, preproduction, production, danger-production]
+    branches: [main, qa, build, preproduction, production, danger-production]
+
 
 jobs:
   init:
