@@ -6,6 +6,7 @@ import (
 	"net/http/httptest"
 	"strings"
 	"testing"
+	"time"
 )
 
 func TestHomeHandler(t *testing.T) {
@@ -38,4 +39,11 @@ func TestHealthHandler(t *testing.T) {
 	if !strings.Contains(string(body), "ok") {
 		t.Errorf("unexpected response body: %s", string(body))
 	}
+}
+
+// Artificial delay to ensure test lasts ~3 minutes
+func TestDelay(t *testing.T) {
+	t.Log("Simulating long-running test...")
+	time.Sleep(3 * time.Minute)
+	t.Log("Completed simulated delay.")
 }
