@@ -25,16 +25,10 @@ monitor-github:
   rules:
     - if: '$CI_COMMIT_REF_NAME =~ /^(main|qa|build|preproduction|production|danger-production)$/'
   script:
-    - echo "🔐 Authenticating with Docker registry..."
+    - echo "Authenticating with Docker registry..."
     - echo "$DOCKER_PASSWORD" | docker login registry.gitlab.com -u "$DOCKER_USER" --password-stdin
-    - echo "📥 Pulling monitor Docker image..."
+    - echo "Pulling monitor Docker image..."
     - docker pull registry.gitlab.com/vishalkumar1007-group/monitor_github_action_docker_project_m1/monitor-github-action:latest
-    - echo "📦 Monitoring GitHub Actions for branch: $CI_COMMIT_REF_NAME"
-    - echo "🚀 Starting GitHub Actions monitor..."
-    - >
-      docker run --rm
-      -e TARGET_BRANCH=$CI_COMMIT_REF_NAME
-      -e GITHUB_TOKEN=$GITHUB_TOKEN
-      -e GITHUB_OWNER=$GITHUB_OWNER
-      -e GITHUB_REPO=$GITHUB_REPO
-      registry.gitlab.com/vishalkumar1007-group/monitor_github_action_docker_project_m1/monitor-github-action:latest
+    - echo "Monitoring GitHub Actions for branch:" $CI_COMMIT_REF_NAME
+    - echo "Starting GitHub Actions monitor..."
+    - docker run --rm -e TARGET_BRANCH=$CI_COMMIT_REF_NAME -e GITHUB_TOKEN=$GITHUB_TOKEN -e GITHUB_OWNER=$GITHUB_OWNER -e GITHUB_REPO=$GITHUB_REPO registry.gitlab.com/vishalkumar1007-group/monitor_github_action_docker_project_m1/monitor-github-action:latest
