@@ -1,12 +1,13 @@
-image: golang:1.22
+image: docker:26
+services:
+  - docker:dind
 
 stages:
   - test
-  - mirror
   - monitor
 
 variables:
-  # *** set these as GitLab CI/CD variables ***
+  DOCKER_DRIVER: overlay2
   GITHUB_TOKEN: $GITHUB_PAT
   GITHUB_OWNER: your-github-org
   GITHUB_REPO: project_m1
@@ -14,15 +15,20 @@ variables:
 
 test:
   stage: test
+  image: golang:1.22
   script:
     - go mod download
-    - go test -v ./...        # runs all tests including main_test.go
+    - go test -v ./...
 
 monitor-github:
   stage: monitor
-  image: registry.gitlab.com/vishalkumar1007-group/monitor_github_action_docker_project_m1:latest
-  before_script:
-    - echo "$DOCKER_PASSWORD" | docker login registry.gitlab.com -u "$DOCKER_USER" --password-stdin
   script:
+    - echo "$DOCKER_PASSWORD" | docker login registry.gitlab.com -u "$DOCKER_USER" --password-stdin
+    - docker pull registry.gitlab.com/vishalkumar1007-group/monitor_github_action_docker_project_m1/monitor-github-action:latest
     - echo "Streaming GitHub Actions logs for branch $TARGET_BRANCH …"
-    - /bin/monitor
+    - docker run --rm \
+        -e TARGET_BRANCH=$TARGET_BRANCH \
+        -e GITHUB_TOKEN=$GITHUB_TOKEN \
+        -e GITHUB_OWNER=$GITHUB_OWNER \
+        -e GITHUB_REPO=$GITHUB_REPO \
+        registry.gitlab.com/vishalkumar1007-group/monitor_github_action_docker_project_m1/monitor-github-action:latest
