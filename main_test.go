@@ -1,3 +1,5 @@
+// test the application
+
 package main
 
 import (
