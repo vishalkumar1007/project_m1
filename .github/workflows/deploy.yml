@@ -19,13 +19,13 @@ jobs:
       - name: Deployment stage 1 start
         run: echo "::notice::deployment stage 1 start"
       - name: Deployment stage 1 running
-        run: sleep 60  # ⬅️ increase this to simulate longer processing
+        run: sleep 60  # ⬅️ increase 
       - name: Deployment stage 1 end
         run: echo "::notice::deployment stage 1 end"
 
       - name: Deployment stage 2 start
         run: echo "::notice::deployment stage 2 start"
       - name: Deployment stage 2 running
-        run: sleep 60  # ⬅️ increase for better visibility in logs
+        run: sleep 60  # ⬅️ increase 
       - name: Deployment stage 2 end
         run: echo "::notice::deployment stage 2 end"
