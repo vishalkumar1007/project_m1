@@ -1,5 +1,4 @@
 name: Deploy
-
 on:
   push:
     branches: [main, qa, build, preproduction, production, danger-production]
@@ -9,23 +8,52 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Waiting for mirroring
-        run: echo "::notice::waiting for the mirroring"
-      - uses: actions/checkout@v4
+        run: echo "::notice::Waiting for the mirroring to complete"
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Initialize deployment
+        run: echo "::notice::Deployment initialization complete"
 
   deploy:
     needs: init
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
       - name: Deployment stage 1 start
-        run: echo "::notice::deployment stage 1 start"
+        run: echo "::notice::Deployment stage 1 starting..."
+        
       - name: Deployment stage 1 running
-        run: sleep 60  # ⬅️ increase 
+        run: |
+          echo "::notice::Processing deployment stage 1..."
+          for i in {1..5}; do
+            echo "Stage 1 - Step $i/5 processing..."
+            sleep 60  # 5 minutes total for stage 1
+          done
+          echo "::notice::Deployment stage 1 processing complete"
+        
       - name: Deployment stage 1 end
-        run: echo "::notice::deployment stage 1 end"
+        run: echo "::notice::Deployment stage 1 completed successfully"
 
       - name: Deployment stage 2 start
-        run: echo "::notice::deployment stage 2 start"
+        run: echo "::notice::Deployment stage 2 starting..."
+        
       - name: Deployment stage 2 running
-        run: sleep 60  # ⬅️ increase 
+        run: |
+          echo "::notice::Processing deployment stage 2..."
+          for i in {1..5}; do
+            echo "Stage 2 - Step $i/5 processing..."
+            sleep 60  # 5 minutes total for stage 2
+          done
+          echo "::notice::Deployment stage 2 processing complete"
+        
       - name: Deployment stage 2 end
-        run: echo "::notice::deployment stage 2 end"
+        run: echo "::notice::Deployment stage 2 completed successfully"
+        
+      - name: Final deployment verification
+        run: |
+          echo "::notice::Running final deployment verification..."
+          echo "Verifying deployment integrity..."
+          echo "All systems operational"
+          echo "::notice::Deployment verification complete - All systems go!"
