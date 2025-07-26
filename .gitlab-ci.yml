@@ -9,7 +9,7 @@ stages:
 
 variables:
   DOCKER_DRIVER: overlay2
-  GITHUB_TOKEN: $GITHUB_PAT        # set in GitLab CI/CD Variables
+  GITHUB_TOKEN: $GITHUB_PAT        # set in GitLab CI/CD Variable
   GITHUB_OWNER: vishalkumar1007    # your GitHub username or org
   GITHUB_REPO: project_m1          # your GitHub repo name
 
